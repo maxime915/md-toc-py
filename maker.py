@@ -1,9 +1,10 @@
+#!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
 import re
 import math
+import sys
 
 
-def create_TOC(file, name):
-    link = True
+def create_TOC(file, name, link):
     lines = [line.rstrip('\n') for line in open(file)]  # get lines
 
     last_line = ""
@@ -104,38 +105,25 @@ def create_TOC(file, name):
 
 # making it work
 if __name__ == "__main__":
-    print(create_TOC("README.md", "Table of Content"))
+    # if arg 1 and 2 are given (i.e. file name & TOC name)
+    if len(sys.argv) == 3:
+        print(create_TOC(sys.argv[1], sys.argv[2], True))
+    # if linker option is set
+    elif len(sys.argv) == 4:
+        if sys.argv[3].lower() in ['0', 'no', 'n']:
+            print(create_TOC(sys.argv[1], sys.argv[2], False))
+        else:
+            print(create_TOC(sys.argv[1], sys.argv[2], True))
+    else:
+        print("""
+    MarkDown Table Of Content Maker
+Please specify at least two arguments : the md file name and a name for your TOC
+You can also set an option if you would like your TOC without link by using the values "0", "no", "n"
+Usage :
 
+    (linked TOC)
+        python maker README.py Table\ of\ Contents
 
-""" md RULES
-underline header:
-    max 3 blank space before
-    min 1 =/- (no max)
-
-diese header:
-    max 3 blank space before the first #
-    min 1 and max 6 #
-
-quote block:
-    starting with > (may be nested undefinitely, max 4 spaces between each >)
-    ! can contain header only if # if the first non space or # char
-    not to include in a table of content...
-
-code block:
-    start with at least 4 spaces or at least 1 tab or "```" or "`"
-    ! canNOT contain header
-
-    max 3 spaces before ```
-
-    -> no need to check inline code (`) (first)
-
-    # and nothing else
-    -> no need to prevent 4 space / 1 tab before there should be max 3 space before
-
-invalid text for header:
-    quoted
-    list
-    tabed code block
-    header line (full header)
-    line full of =/-
-"""
+    (not linked)
+        python maker README.py Table\ of\ Contents 0
+""")
