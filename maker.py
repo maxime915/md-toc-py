@@ -110,20 +110,22 @@ if __name__ == "__main__":
         print(create_TOC(sys.argv[1], sys.argv[2], True))
     # if linker option is set
     elif len(sys.argv) == 4:
-        if sys.argv[3].lower() in ['0', 'no', 'n']:
+        if sys.argv[3].lower() in ['0', 'no', 'n', 'f', 'false']:
             print(create_TOC(sys.argv[1], sys.argv[2], False))
         else:
             print(create_TOC(sys.argv[1], sys.argv[2], True))
     else:
         print("""
     MarkDown Table Of Content Maker
-Please specify at least two arguments : the md file name and a name for your TOC
-You can also set an option if you would like your TOC without link by using the values "0", "no", "n"
+Please specify at least two arguments : the path for the markdown file and a name for your Table of Content. You may specify a third argument if you would like not to link your Table of Content by using the values "0", "no", "n", "f" or "false". If there is already a first type header in the markdown file having the title equal to the Table of Content name given (case insensitive), it will be ignored.
+
+NB : requires python 3 installed
+
 Usage :
 
     (linked TOC)
-        python maker README.py Table\ of\ Contents
+        python maker.py README.md Table\\ of\\ Contents
 
     (not linked)
-        python maker README.py Table\ of\ Contents 0
+        python maker.py README.md Table\\ of\\ Contents 0
 """)
