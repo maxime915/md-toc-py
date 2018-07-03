@@ -98,7 +98,7 @@ def create_TOC(file, name, link):
             url = re.sub(' ', '-', url)  # replace spaces by -
             toc_text += 4 * level * " " + "* [" + text + "](#" + url + ")\n"
         else:
-            toc_text += 4 * level * " " + "* [" + text + "]\n"
+            toc_text += 4 * level * " " + "* " + text + "\n"
 
     return toc_text + "\n***\n"
 
