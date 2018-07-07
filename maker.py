@@ -58,7 +58,7 @@ def create_TOC(file, name, link):
             last_line = line
 
     # TOC creation
-    toc_text = name + "\n" + len(name) * "=" + "\n\n"
+    toc_text = "## " + name + "\n" + "\n\n"
 
     for text in toc_texts:
         level = math.nan
@@ -96,9 +96,9 @@ def create_TOC(file, name, link):
             url = text.lower()
             url = re.sub('[\'\(\)/`=-]', '', url)  # remove ' ( ) / ` = -
             url = re.sub(' ', '-', url)  # replace spaces by -
-            toc_text += 4 * level * " " + "* [" + text + "](#" + url + ")\n"
+            toc_text += 2 * level * " " + "* [" + text + "](#" + url + ")\n"
         else:
-            toc_text += 4 * level * " " + "* " + text + "\n"
+            toc_text += 2 * level * " " + "* " + text + "\n"
 
     return toc_text + "\n***\n"
 
