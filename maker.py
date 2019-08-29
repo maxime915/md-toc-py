@@ -4,7 +4,7 @@ import math
 import sys
 
 
-def create_TOC(file, name, link):
+def create_TOC(file, name="Table of Contents", print_link=True):
     lines = [line.rstrip('\n') for line in open(file)]  # get lines
 
     last_line = ""
@@ -92,7 +92,7 @@ def create_TOC(file, name, link):
             level = 5
 
         # create toc element (with url or not)
-        if link:
+        if print_link:
             url = text.lower()
             url = re.sub('[\'\(\)/`=-]', '', url)  # remove ' ( ) / ` = -
             url = re.sub(' ', '-', url)  # replace spaces by -
@@ -106,26 +106,26 @@ def create_TOC(file, name, link):
 # making it work
 if __name__ == "__main__":
     # if arg 1 and 2 are given (i.e. file name & TOC name)
-    if len(sys.argv) == 3:
-        print(create_TOC(sys.argv[1], sys.argv[2], True))
-    # if linker option is set
+    if len(sys.argv) == 2:
+        print(create_TOC(sys.argv[1]))
+    elif len(sys.argv) == 3:
+        print(create_TOC(sys.argv[1], sys.argv[2]))
     elif len(sys.argv) == 4:
-        if sys.argv[3].lower() in ['0', 'no', 'n', 'f', 'false']:
-            print(create_TOC(sys.argv[1], sys.argv[2], False))
-        else:
-            print(create_TOC(sys.argv[1], sys.argv[2], True))
+        print_link = not (sys.argv[3].lower() in [
+                          '0', 'no', 'n', 'f', 'false'])
+        print(create_TOC(sys.argv[1], sys.argv[2], print_link))
     else:
         print("""
     MarkDown Table Of Content Maker
-Please specify at least two arguments : the path for the markdown file and a name for your Table of Content. You may specify a third argument if you would like not to link your Table of Content by using the values "0", "no", "n", "f" or "false". If there is already a first type header in the markdown file having the title equal to the Table of Content name given (case insensitive), it will be ignored.
+Please specify at least one arguments : the path for the markdown file and a name for your Table of Content. You may specify a second argument for the table of content title and a third argument if you would like not to link your Table of Content by using the values "0", "no", "n", "f" or "false". If there is already a first type header in the markdown file having the title equal to the Table of Content name given (case insensitive), it will be ignored.
 
 NB : requires python 3 installed
 
 Usage :
 
-    (linked TOC)
+    (TOC with ref)
         python maker.py README.md Table\\ of\\ Contents
 
-    (not linked)
+    (TOC without ref)
         python maker.py README.md Table\\ of\\ Contents 0
 """)
